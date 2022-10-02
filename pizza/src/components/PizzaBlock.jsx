@@ -5,35 +5,37 @@ import React, {useState} from "react";
 
 
 function PizzaBlock(props){
-  const [pizzaCount,setPizzaCount] = useState(0);
+ // const [pizzaCount,setPizzaCount] = useState(0);
+  const [activeType, setActiveType] = useState(0)
+  const [activeSize, setActiveSize] = useState(0)
+  const typeNames =["тонкое","традиционное"]
 
-
-  const  onClickAdd = () => {
+ /* const  onClickAdd = () => {
     setPizzaCount(pizzaCount+7)
-  }
+  }*/
   return(
     <div className="pizza-block">
       <img
         className="pizza-block__image"
-        src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
+        src={props.imageUrl}
         alt="Pizza"
       />
       <h4 className="pizza-block__title">{props.title}</h4>
       <div className="pizza-block__selector">
         <ul>
-          <li className="active">тонкое</li>
-          <li>традиционное</li>
+          {props.types.map((type)=>(
+            <li key={type} onClick={()=>setActiveType(type)} className={activeType === type ? 'active' : ''}>{typeNames[type]}</li>
+          ))}
         </ul>
         <ul>
-          <li className="active">26 см.
-          </li>
-          <li>30 см.</li>
-          <li>40 см.</li>
+          {props.sizes.map((size,index)=>(
+          <li key={size} onClick={()=>setActiveSize(index)} className={activeSize === index ? 'active' : ''}>{size} см.</li>
+          ))}
         </ul>
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {props.price} ₽</div>
-        <button onClick={()=>onClickAdd()} className="button button--outline button--add">
+        <button/* onClick={()=>onClickAdd()} */ className="button button--outline button--add">
           <svg
             width="12"
             height="12"
@@ -47,7 +49,9 @@ function PizzaBlock(props){
             />
           </svg>
           <span>Добавить</span>
-          <i >{pizzaCount}</i>
+          <i >2
+           {/*{pizzaCount}*/}
+          </i>
         </button>
       </div>
     </div>

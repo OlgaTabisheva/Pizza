@@ -6,8 +6,6 @@ import React, {useEffect, useState} from "react";
 import {Pagination} from "../components/Pagination";
 import {SearchContext} from "../App";
 
-
-
 export const Home =()=>{
   const {searchValue,setSearchValue}=React.useContext(SearchContext)
   const [items,setItems] = useState([])

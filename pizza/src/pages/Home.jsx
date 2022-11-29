@@ -7,7 +7,7 @@ import {Pagination} from "../components/Pagination";
 import {SearchContext} from "../App";
 
 export const Home =()=>{
-  const {searchValue,setSearchValue}=React.useContext(SearchContext)
+  const {searchValue}=React.useContext(SearchContext)
   const [items,setItems] = useState([])
   const [isLoading,setIsLoading] = useState(true)
   const [categoryId,setCategoryId] =useState(0)
@@ -23,7 +23,7 @@ export const Home =()=>{
     const  order = sortType.sortProperty.includes('-') ? 'asc' : 'desc';
     const sortBy =sortType.sortProperty.replace('-','')
     const category = categoryId > 0 ? `category=${categoryId}` : '';
-    const search = searchValue > 0 ? `&search=${setSearchValue}` : '';
+    const search = searchValue > 0 ? `&search=${searchValue}` : '';
     console.log(`https://633b271b471b8c39557d8047.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order}`
       ,categoryId)
 

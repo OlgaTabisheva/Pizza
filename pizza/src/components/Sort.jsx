@@ -1,6 +1,12 @@
 import React, {useState} from "react";
+import { useSelector, useDispatch} from "react-redux";
+import  { setSort } from "../redux/slises/filterSlise";
 
-function Sort({value,onChangeSort}){
+function Sort(){
+  const dispatch = useDispatch();
+  const sort = useSelector(state => state.filter.sort);
+
+
   const [isVisiblePopup, setIsVisiblePopup] = useState(false)
   const list =[
     { name: 'популярности(DESC)', sortProperty: 'rating' },
@@ -11,8 +17,8 @@ function Sort({value,onChangeSort}){
     { name: 'алфавиту(ASC)', sortProperty: '-title' },
     ]
 
-const onClickListItem=(i)=>{
-  onChangeSort(i)
+const onClickListItem=(obj)=>{
+   dispatch(setSort(obj))
   setIsVisiblePopup(false);
 }
 
@@ -32,7 +38,7 @@ const onClickListItem=(i)=>{
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={()=>setIsVisiblePopup(!isVisiblePopup)}>{value.name}</span>
+        <span onClick={()=>setIsVisiblePopup(!isVisiblePopup)}>{sort.name}</span>
       </div>
       {/*Если левая часть true, то выполнится правая часть*/}
       {isVisiblePopup && (
@@ -40,7 +46,7 @@ const onClickListItem=(i)=>{
           <ul>
             {list.map((obj,i)=>(
               <li key={i} onClick={()=>onClickListItem(obj)}
-                 className={value.sortProperty === obj.sortProperty ? 'active' : ''}>{obj.name}</li>
+                 className={sort.sortProperty === obj.sortProperty ? 'active' : ''}>{obj.name}</li>
             ))}
           </ul>
         </div>

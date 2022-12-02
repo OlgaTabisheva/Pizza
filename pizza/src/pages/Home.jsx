@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
@@ -33,7 +34,7 @@ export const Home =()=>{
     console.log(`https://633b271b471b8c39557d8047.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order}`
       ,categoryId)
 
-    fetch(
+  /*  fetch(
       `https://633b271b471b8c39557d8047.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`,
     )
       .then((res)=> {
@@ -42,7 +43,18 @@ export const Home =()=>{
       .then((arr)=>{
         setItems(arr)
         setIsLoading(false)
+      })*/
+
+    axios
+      .get(
+        `https://633b271b471b8c39557d8047.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
+      )
+      .then((arr)=>{
+        setItems(arr.data)
+        setIsLoading(false)
       })
+
+
     window.scrollTo(0,0)
   },[categoryId, sortType, searchValue,currentPage])
   const pizzas =  items.filter(obj=>{

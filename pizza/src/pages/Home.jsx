@@ -5,33 +5,32 @@ import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import SkeletonPizza from "../components/SkeletonPizza";
 import PizzaBlock from "../components/PizzaBlock";
-import { setCategoryId } from "../redux/slises/filterSlise";
+import { setCategoryId, setCurrentPage } from "../redux/slises/filterSlise";
 import {Pagination} from "../components/Pagination";
 import {SearchContext} from "../App";
 
 export const Home =()=>{
   const dispatch = useDispatch()
-  const {categoryId, sort} = useSelector((state) => state.filter);
-  const sortType = sort.sortProperty;
-
+  const {categoryId, sort, currentPage} = useSelector((state) => state.filter);
   const {searchValue}=React.useContext(SearchContext)
   const [items,setItems] = useState([])
   const [isLoading,setIsLoading] = useState(true)
-  const [currentPage, setCurrentPage]=useState(1)
-
 
   const onClickCategory =(id) => {
     dispatch(setCategoryId(id))
   }
 
-  useEffect(()=>{
+  const onChangePage = number =>{
+    dispatch(setCurrentPage(number))
+  }
 
+  useEffect(()=>{
     setIsLoading(true)
-    const  order = sortType.includes('-') ? 'asc' : 'desc';
-    const sortBy =sortType.replace('-','')
+    const  order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
+    const sortBy =sort.sortProperty.replace('-','')
     const category = categoryId > 0 ? `category=${categoryId}` : '';
     const search = searchValue > 0 ? `&search=${searchValue}` : '';
-    console.log(`https://633b271b471b8c39557d8047.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order}`
+    console.log(`https://633b271b471b8c39557d8047.mockapi.io/items?${currentPage}&sortBy=${sortBy}&order=${order}`
       ,categoryId)
 
   /*  fetch(
@@ -47,7 +46,7 @@ export const Home =()=>{
 
     axios
       .get(
-        `https://633b271b471b8c39557d8047.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
+        `https://633b271b471b8c39557d8047.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`,categoryId
       )
       .then((arr)=>{
         setItems(arr.data)
@@ -56,7 +55,7 @@ export const Home =()=>{
 
 
     window.scrollTo(0,0)
-  },[categoryId, sortType, searchValue,currentPage])
+  },[categoryId, sort.sortProperty, searchValue,currentPage])
   const pizzas =  items.filter(obj=>{
     if (obj.title.toLowerCase().includes(searchValue.toLowerCase())) {
       return true;
@@ -77,7 +76,7 @@ export const Home =()=>{
       <div className="content__items">
         {isLoading ? skeletons : pizzas}
       </div>
-      <Pagination onChangePage={(number)=>setCurrentPage(number)}/>
+      <Pagination currentPage={currentPage} onChangePage={onChangePage}/>
     </>
   )
 }

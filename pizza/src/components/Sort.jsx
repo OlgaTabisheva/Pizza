@@ -1,6 +1,14 @@
 import React, {useState} from "react";
 import { useSelector, useDispatch} from "react-redux";
 import  { setSort } from "../redux/slises/filterSlise";
+export const list =[
+  { name: 'популярности(DESC)', sortProperty: 'rating' },
+  { name: 'популярности(ASC)', sortProperty: '-rating' },
+  { name: 'цене(DESC)', sortProperty: 'price' },
+  { name: 'цене(ASC)', sortProperty: '-price' },
+  { name: 'алфавиту(DESC)', sortProperty: 'title' },
+  { name: 'алфавиту(ASC)', sortProperty: '-title' },
+]
 
 function Sort(){
   const dispatch = useDispatch();
@@ -8,16 +16,8 @@ function Sort(){
 
 
   const [isVisiblePopup, setIsVisiblePopup] = useState(false)
-  const list =[
-    { name: 'популярности(DESC)', sortProperty: 'rating' },
-    { name: 'популярности(ASC)', sortProperty: '-rating' },
-    { name: 'цене(DESC)', sortProperty: 'price' },
-    { name: 'цене(ASC)', sortProperty: '-price' },
-    { name: 'алфавиту(DESC)', sortProperty: 'title' },
-    { name: 'алфавиту(ASC)', sortProperty: '-title' },
-    ]
 
-const onClickListItem=(obj)=>{
+ const onClickListItem=(obj)=>{
    dispatch(setSort(obj))
   setIsVisiblePopup(false);
 }
@@ -56,4 +56,4 @@ const onClickListItem=(obj)=>{
 
   )
 }
-export default Sort
+export default Sort;

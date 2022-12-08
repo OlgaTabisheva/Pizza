@@ -22,7 +22,7 @@ function Sort(){
    dispatch(setSort(obj))
   setIsVisiblePopup(false);
 }
-React.useEffect((event)=>{
+React.useEffect(()=>{
   const handleClickOutside = (event ) =>{
     if (!event.path.includes(sortRef.current)){
       setIsVisiblePopup(false);

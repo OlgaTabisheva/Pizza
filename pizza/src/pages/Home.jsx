@@ -22,17 +22,14 @@ export const Home = () => {
   const onClickCategory = (id) => {
     dispatch(setCategoryId(id))
   }
-
   const onChangePage = number => {
     dispatch(setCurrentPage(number))
   }
   const getPizzas = async () => {
-    //setIsLoading(true)
     const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
     const sortBy = sort.sortProperty.replace('-', '')
     const category = categoryId > 0 ? `category=${categoryId}` : '';
     const search = searchValue ? `search=${searchValue}` : '';
-
     dispatch(
       fetchPizzas({
         order,

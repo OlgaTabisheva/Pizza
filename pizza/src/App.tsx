@@ -1,8 +1,8 @@
 import * as React from "react";
 import './scss/app.scss'
 import {Route, Routes,} from "react-router-dom";
-import NotFound from "../src/components/NotFoundBlock/index";
-import {Home} from "./pages/Home";
+import NotFound from "./components/NotFoundBlock";
+import Home from "./pages/Home";
 import Cart from "./pages/Cart"
 import FullPizza from "./pages/FullPizza";
 import MainLayout from "./MainLayouts";

@@ -18,6 +18,7 @@ import {fetchPizzas, selectPizzaData} from "../redux/slises/pizzaSlice";
   const isMounted = React.useRef(false);
   const {items, status} = useSelector(selectPizzaData);
   const {categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
+
   const onClickCategory = (id:number) => {
     dispatch(setCategoryId(id))
   }

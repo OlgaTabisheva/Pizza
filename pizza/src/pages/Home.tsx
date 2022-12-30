@@ -1,19 +1,20 @@
 import React from "react";
 import qs from 'qs'
-import {useNavigate, Link } from 'react-router-dom'
+import {useNavigate } from 'react-router-dom'
 import {useDispatch, useSelector} from "react-redux";
 import Categories from "../components/Categories";
 import Sort, {list} from "../components/Sort";
 import SkeletonPizza from "../components/SkeletonPizza";
 import PizzaBlock from "../components/PizzaBlock";
-import {selectFilter, setCategoryId, setCurrentPage, setFilters} from "../redux/slises/filterSlise";
+import {FilterSliceState, selectFilter, setCategoryId, setCurrentPage, setFilters} from "../redux/slises/filterSlise";
 import Pagination from "../components/Pagination/index";
-import {fetchPizzas, selectPizzaData} from "../redux/slises/pizzaSlice";
+import {fetchPizzas, SearchPizzaParams, selectPizzaData} from "../redux/slises/pizzaSlice";
+import {useAppDispatch} from "../redux/store";
 
 
  const Home:React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
   const {items, status} = useSelector(selectPizzaData);
@@ -31,18 +32,19 @@ import {fetchPizzas, selectPizzaData} from "../redux/slises/pizzaSlice";
     const category = categoryId > 0 ? `category=${categoryId}` : '';
     const search = searchValue ? `search=${searchValue}` : '';
     dispatch(
-        //@ts-ignore
       fetchPizzas({
         order,
         sortBy,
         category,
         search,
-        currentPage
-      })
+        currentPage: String(currentPage),
+      }),
     );
     window.scrollTo(0, 0)
   }
 
+
+/*
   React.useEffect(() => {
     if (isMounted.current) {
       const queryString = qs.stringify({
@@ -52,22 +54,29 @@ import {fetchPizzas, selectPizzaData} from "../redux/slises/pizzaSlice";
       })
       navigate(`?${queryString}`)
     }
-    isMounted.current = true;
+    //isMounted.current = true;
+      if(!window.location.search){
+          dispatch(fetchPizzas({} as SearchPizzaParams))
+      }
   }, [categoryId, sort.sortProperty, currentPage]);
 
-  React.useEffect(() => {
+*/
+
+
+/*  React.useEffect(() => {
     if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
-      const sort = list.find((obj) => obj.sortProperty === params.sortProperty);
-      dispatch(
-        setFilters({
-          ...params,
-          sort,
-        }),
-      );
+      const params= qs.parse(window.location.search.substring(1))as unknown as SearchPizzaParams ;
+      const sort = list.find((obj) => obj.sortProperty === params.sortBy);
+        dispatch(setFilters({
+            searchValue: params.search,
+            categoryId: Number(params.category),
+            currentPage: Number(params.currentPage),
+            sort: sort || list[0]
+        }))
       isSearch.current = true;
     }
-  }, [])
+  }, [])*/
+
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
@@ -78,18 +87,20 @@ import {fetchPizzas, selectPizzaData} from "../redux/slises/pizzaSlice";
   }, [categoryId, sort.sortProperty, searchValue, currentPage])
 
 
-  const pizzas = items.filter((obj:any) => {
+/*
+ const pizzas = items.filter((obj:any) => {
     if (obj.title.toLowerCase().includes(searchValue.toLowerCase())) {
       return true;
     }
     return false;
   })
 
-    .map((obj:any) => (
-      <Link key={obj.id} to={`/pizza/${obj.id}`}>
+    items.map((obj:any) => (
       <PizzaBlock {...obj}/>
-      </Link>
-    ));
+    ))
+*/
+  const pizzas = items.map((obj: any) => (<PizzaBlock key={obj.id} {...obj} />));
+
   const skeletons = [new Array(6)].map((_, index) => <SkeletonPizza key={index}/>)
   return (
     <>

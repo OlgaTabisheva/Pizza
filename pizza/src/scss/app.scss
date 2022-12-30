@@ -228,6 +228,17 @@ body {
       width: 13%;
 
       &-minus {
+        &:disabled{
+          opacity: 0.4;
+          background-color: #787878;
+          &:active{
+            transform: none;
+          }
+          &:hover{
+            background-color: transparent;
+          }
+        }
+
         svg {
           path:first-of-type {
             display: none;

@@ -5,7 +5,7 @@ import NotFound from "./components/NotFoundBlock";
 import Home from "./pages/Home";
 import Cart from "./pages/Cart"
 import FullPizza from "./pages/FullPizza";
-import MainLayout from "./MainLayouts";
+import MainLayout from "./layouts/MainLayouts";
 
 
 function App() {
